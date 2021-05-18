@@ -4,7 +4,7 @@
 import type { Request } from '@sveltejs/kit';
 import type { Locals } from '$lib/types';
 
-const base = 'http://localhost:8000/api'
+const base = 'http://localhost:8000/api';
 
 export async function api(request: Request<Locals>, resource: string, data?: {}) {
 	// User must have cookie set
@@ -21,7 +21,7 @@ export async function api(request: Request<Locals>, resource: string, data?: {})
 		method: request.method,
 		headers: {
 			'content-type': 'application/json',
-			'cookie': `user_id=${request.locals.user_id}`
+			cookie: `user_id=${request.locals.user_id}`
 		},
 		body: data && JSON.stringify(data),
 		mode: 'cors',

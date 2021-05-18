@@ -19,7 +19,7 @@
 		return {
 			error: new Error(message)
 		};
-	}
+	};
 </script>
 
 <script>
@@ -30,24 +30,24 @@
 
 <h4>Ingredients</h4>
 {#each recipe.ingredients as ingredient}
-	<div class='ingredients-container'>
+	<div class="ingredients-container">
 		<p>{ingredient.name}</p>
-		<p class='amount'>{ingredient.amount}</p>
+		<p class="amount">{ingredient.amount}</p>
 	</div>
 {/each}
 
 <h4>Steps</h4>
-{#each recipe.steps as step }
+{#each recipe.steps as step}
 	<p>{step}</p>
 {/each}
 
 <style>
 	.ingredients-container {
-			display: flex;
-			align-items: center;
+		display: flex;
+		align-items: center;
 	}
+
 	.amount {
-			padding-left: 2em;
+		padding-left: 2em;
 	}
 </style>
-
