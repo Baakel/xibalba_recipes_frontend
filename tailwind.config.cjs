@@ -24,12 +24,32 @@ module.exports = {
 				secondary: '#594e77',
 				letters: {
 					100: '#e1dac7',
-					200: '#a49375',
+					200: '#a49375'
 				},
 				fondo: {
 					100: '#34342d',
-					200: '#24241f',
-				},
+					200: '#24241f'
+				}
+			},
+			backgroundImage: (theme) => ({
+				// 'home-banner': "url('home_banner.jpg')",
+				'home-banner-s': "url('home_banner_s.jpg')",
+				// 'baked-bread': "url('baked_bread.jpg')",
+				'baked-bread-s': "url('baked_bread_s.jpg')",
+				// 'kitchen-recipes': "url('kitchen_recipes.jpg')",
+				'kitchen-recipes-s': "url('kitchen_recipes_s.jpg')"
+			}),
+			backgroundPosition: {
+				'center-center': 'center center',
+				'center-left': 'center left',
+				'center-right': 'center right'
+			},
+			spacing: {
+				225: '56.25rem',
+				'25p': '25%'
+			},
+			zIndex: {
+				m1: '-10'
 			}
 		}
 	},

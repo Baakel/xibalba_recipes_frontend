@@ -2,11 +2,15 @@
 
 <style>
 	footer {
-		color: #3b313a;
-		text-align: center;
-		padding: 20px;
-		max-width: 400px;
-		margin: 40px auto 0;
-		border-top: 1px solid #f2f2f2;
+		@apply text-secondary
+		text-center
+		border-t-2
+		border-solid
+		border-letters-200
+		p-5
+		max-w-md
+		mt-10
+		mx-auto
+		mb-0;
 	}
 </style>
