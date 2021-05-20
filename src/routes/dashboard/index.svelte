@@ -116,7 +116,7 @@
 		background: #fbfbfb;
 	}
 	div {
-		text-align: center;
+		@apply text-center;
 	}
 	.card {
 		@apply bg-fondo-200 rounded overflow-hidden shadow-md mb-3 relative;

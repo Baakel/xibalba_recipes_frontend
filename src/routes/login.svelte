@@ -9,7 +9,8 @@
 	let result = null;
 
 	function redirectToDashboard() {
-		goto('/dashboard');
+		console.log("Im gotoing to dashboard")
+		goto('/dashboard', true);
 	}
 </script>
 
@@ -18,7 +19,7 @@
 </svelte:head>
 
 <main>
-	<h1>Log in or Register for a good</h1>
+	<h1 class='text-5xl font-bold'>Log in or Register</h1>
 	<h2>Result:</h2>
 	<p>{result}</p>
 	<form action="http://localhost:8000/api/login" method="post">
