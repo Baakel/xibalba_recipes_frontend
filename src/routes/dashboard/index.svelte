@@ -32,7 +32,7 @@
 <script lang="ts">
 	import { session } from '$app/stores';
 	export let recipes;
-	let cols = 7;
+	export let cols = 7;
 </script>
 
 <header>
@@ -40,12 +40,15 @@
 </header>
 
 <div>
-	<h4 class="text-3xl text-center font-bold text-primary pb-2 border-b border-letters-200">
-		Chosen Recipes
-	</h4>
+	<div class='grid grid-cols-3 pb-2 border-b border-letters-200'>
+		<h4 class="text-3xl col-start-2 col-end-2 text-center font-bold text-primary ">
+			Chosen Recipes
+		</h4>
+		<input type='text' class='col-start-3' bind:value={cols}>
+	</div>
 	<div class="mt-8 grid lg:grid-cols-{cols} gap-3">
 		<!--		Cards go here -->
-		{#each recipes as recipe}
+		{#each recipes as recipe (recipe.id)}
 			<div class="card hover:shadow-lg">
 				<img class="w-full h-32 sm:h-48 object-cover" src="salad.jpg" alt={recipe.mealType} />
 				<div class="m-4">

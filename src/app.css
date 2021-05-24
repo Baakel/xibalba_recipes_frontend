@@ -40,7 +40,16 @@ h4 {
 		uppercase
 		text-sm
 		font-semibold
-		border-0;
+		border-0
+		outline-none;
+	}
+
+	.std-btn:focus {
+		@apply outline-none;
+	}
+
+	.std-btn:active {
+		@apply transform scale-95 outline-none;
 	}
 
 	.badge {
@@ -48,6 +57,12 @@ h4 {
 	}
 
 	.btn {
-		@apply rounded-full py-2 px-3 uppercase text-xs font-bold cursor-pointer tracking-wider;
+		@apply rounded-full py-2 px-3 uppercase text-xs font-bold cursor-pointer tracking-wider outline-none;
+	}
+	.btn:active {
+		@apply transform scale-95 outline-none;
+	}
+	.btn:focus {
+		@apply outline-none
 	}
 }

@@ -44,12 +44,18 @@ module.exports = {
 				'center-left': 'center left',
 				'center-right': 'center right'
 			},
+			minHeight: {
+				96: '24rem'
+			},
 			spacing: {
 				225: '56.25rem',
-				'25p': '25%'
+				192: '48rem',
+				'25p': '25%',
+				'200p': '200%'
 			},
 			zIndex: {
-				m1: '-10'
+				m1: '-10',
+				100: '100'
 			}
 		}
 	},

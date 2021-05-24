@@ -13,7 +13,7 @@
 
 {#if $page.path !== '/'}
 	<Nav />
-	<main class="relative bg-fondo-100 mx-0 my-auto px-16 py-16">
+	<main class="relative bg-fondo-100 mx-1 my-auto px-0 py-0 md:px-16 md:py-16">
 		<!-- this is where the components get injected -->
 		<slot />
 	</main>

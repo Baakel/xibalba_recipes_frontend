@@ -31,8 +31,7 @@
 
 <!-- the vertical img goes here -->
 <div
-	class="main-bg bg-baked-bread-s md:bg-kitchen-recipes-s absolute z-m1 w-2/5 right-0 md:bg-no-repeat"
-/>
+	class="main-bg bg-baked-bread-s md:bg-kitchen-recipes-s absolute z-m1 w-2/5 right-0 md:bg-no-repeat"></div>
 <!--<div class="main-bg" />-->
 <div class="main-content pt-20 md:pt-40 pr-16 md:pr-32 pb-14 md:pb-56 pl-12 md:pl-32">
 	<h1 class="text-3xl md:text-8xl font-bold md:mb-24">Welcome to your virtual kitchen</h1>
@@ -40,7 +39,7 @@
 		<p class="text-lg pl-25p font-medium mt-6">Share recipes with friends and loved ones</p>
 	{:else}
 		<p class="text-2xl pl-25p font-medium mt-6">
-			Start creating your recipes and share them with friends and loved ones.<br /> Choose new recipes
+			Create your own recipes and share them with friends and loved ones.<br /> Choose new recipes
 			every week and get ready to cook without even thinking about it!
 		</p>
 	{/if}
