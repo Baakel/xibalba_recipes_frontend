@@ -4,8 +4,8 @@
 	export const load: Load = async ({ fetch, session }) => {
 		if (!session.username) {
 			return {
-				error: new Error('You need to login first.'),
-				status: 401
+				redirect: '/login',
+				status: 302
 			};
 		}
 		const res = await fetch('/dashboard.json');
@@ -32,7 +32,87 @@
 <script lang="ts">
 	import { session } from '$app/stores';
 	export let recipes;
-	export let cols = 7;
+	let amount: number;
+	let cols = recipes.length;
+	let error: string;
+	// console.log(recipes)
+	async function deleteChosenRecipes(): Promise<boolean> {
+		error = undefined;
+		try {
+			const res = await fetch('http://localhost:8000/api/recipes/weeklyreset', {
+				method: 'DELETE',
+				mode: 'cors',
+				credentials: 'include'
+			});
+
+			if (res.ok) {
+				return true;
+			}
+			error = "Couldn't delete the chosen recipes";
+			return false;
+		} catch (err) {
+			error = 'Server unavailable for deleting the chosen recipes';
+			return false;
+		}
+	}
+
+	async function chooseWeeklyRecipes(ids: [string]): Promise<boolean> {
+		error = undefined;
+		try {
+			const res = await fetch('http://localhost:8000/api/recipes/weekly', {
+				method: 'POST',
+				body: JSON.stringify({ ids }),
+				headers: { 'Content-Type': 'application/json' },
+				mode: 'cors',
+				credentials: 'include'
+			});
+
+			if (res.ok) {
+				return true;
+			}
+			error = "Couldn't choose new recipes";
+			return false;
+		} catch (err) {
+			console.log(err);
+			error = 'Server unavailable while choosing new random recipes';
+			return false;
+		}
+	}
+
+	async function getRandomRecipes(): Promise<boolean> {
+		error = undefined;
+		try {
+			const res = await fetch(`http://localhost:8000/api/recipes/weekly?amount=${amount}`, {
+				method: 'GET',
+				mode: 'cors',
+				credentials: 'include'
+			});
+
+			if (res.ok) {
+				let recipes_array = await res.json();
+				recipes = recipes_array['recipes'];
+				let recipeIds = recipes.map((recipe) => recipe.id);
+				let chooseWeeklyTest = false;
+				let deleteResTest = await deleteChosenRecipes();
+				if (deleteResTest) {
+					chooseWeeklyTest = await chooseWeeklyRecipes(recipeIds);
+				}
+				return deleteResTest && chooseWeeklyTest;
+			}
+			error = 'Error fetching response';
+			return false;
+		} catch (err) {
+			error = 'Server unavailable for getting new random recipes';
+			return false;
+		}
+	}
+	const handleNewRecipes = async () => {
+		let success = await getRandomRecipes();
+		if (success) {
+			cols = amount;
+			amount = null;
+		}
+	};
 </script>
 
 <header>
@@ -40,17 +120,53 @@
 </header>
 
 <div>
-	<div class='grid grid-cols-3 pb-2 border-b border-letters-200'>
-		<h4 class="text-3xl col-start-2 col-end-2 text-center font-bold text-primary ">
+	<div class="grid grid-cols-3 gap-6 pb-2 border-b border-letters-200">
+		{#if error}
+			<span class="text-center text-primary text-xs tracking-wide">{error}</span>
+		{/if}
+		<h4 class="text-3xl col-start-2 col-end-3 text-center font-bold text-primary ">
 			Chosen Recipes
 		</h4>
-		<input type='text' class='col-start-3' bind:value={cols}>
+		<div class="col-start-3">
+			<form
+				class="inline-block md:flex md:items-center md:justify-center"
+				action="#"
+				on:submit|preventDefault={handleNewRecipes}
+			>
+				<button type="submit" class="btn text-letters-100 bg-secondary text-xs rounded-full">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-4 w-4 inline-block mr-2"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+						/>
+					</svg>
+					New recipes
+				</button>
+				<input
+					type="number"
+					max="14"
+					min="1"
+					class="bg-fondo-100 text-letters-100 border-secondary border-2 rounded-lg w-8 text-center mx-2 my-2 md:my-0"
+					bind:value={amount}
+					required
+					aria-required="true"
+				/>
+			</form>
+		</div>
 	</div>
 	<div class="mt-8 grid lg:grid-cols-{cols} gap-3">
 		<!--		Cards go here -->
 		{#each recipes as recipe (recipe.id)}
 			<div class="card hover:shadow-lg">
-				<img class="w-full h-32 sm:h-48 object-cover" src="salad.jpg" alt={recipe.mealType} />
+				<img class="w-full h-32 sm:h-48 object-cover" src="/salad.jpg" alt={recipe.mealType} />
 				<div class="m-4">
 					<a sveltekit:prefetch href={`recipes/${recipe.id}`}>
 						<span class="font-bold text-letters-200">{recipe.name}</span>
@@ -123,5 +239,13 @@
 	}
 	.card {
 		@apply bg-fondo-200 rounded overflow-hidden shadow-md mb-3 relative;
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input[type='number'] {
+		-moz-appearance: textfield;
 	}
 </style>
