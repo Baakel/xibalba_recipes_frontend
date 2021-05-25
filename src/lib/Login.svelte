@@ -33,7 +33,7 @@
 			}
 		} catch (err) {
 			console.log(err);
-			error = 'Catching error while fetching login api';
+			error = 'Server unavailable';
 		}
 	}
 

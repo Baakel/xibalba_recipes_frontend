@@ -67,7 +67,7 @@
 			}
 		} catch (err) {
 			console.log(err);
-			dbError = 'Catching error while fetching login api';
+			dbError = 'Server unavailable';
 		}
 	}
 </script>

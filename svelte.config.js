@@ -14,12 +14,16 @@
 // };
 
 import preprocess from 'svelte-preprocess';
+import adapter from '@sveltejs/adapter-node';
 
 const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		target: '#svelte'
+		target: '#svelte',
+		adapter: adapter({
+			out: 'build'
+		})
 	}
 };
 

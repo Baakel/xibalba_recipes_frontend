@@ -33,11 +33,11 @@ module.exports = {
 			},
 			backgroundImage: (theme) => ({
 				// 'home-banner': "url('home_banner.jpg')",
-				'home-banner-s': "url('home_banner_s.jpg')",
+				'home-banner-s': "url('/home_banner_s.jpg')",
 				// 'baked-bread': "url('baked_bread.jpg')",
-				'baked-bread-s': "url('baked_bread_s.jpg')",
+				'baked-bread-s': "url('/baked_bread_s.jpg')",
 				// 'kitchen-recipes': "url('kitchen_recipes.jpg')",
-				'kitchen-recipes-s': "url('kitchen_recipes_s.jpg')"
+				'kitchen-recipes-s': "url('/kitchen_recipes_s.jpg')"
 			}),
 			backgroundPosition: {
 				'center-center': 'center center',
