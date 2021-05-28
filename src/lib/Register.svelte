@@ -45,12 +45,12 @@
 			return passError;
 		}
 		try {
-			const res = await fetch('http://localhost:8000/api/users/new', {
+			const res = await fetch('/register.json', {
 				method: 'POST',
 				body: JSON.stringify({ username, password, email }),
-				headers: { 'Content-Type': 'application/json' },
-				mode: 'cors',
-				credentials: 'include'
+				// headers: { 'Content-Type': 'application/json' },
+				// mode: 'cors',
+				// credentials: 'include'
 			});
 
 			if (res.ok) {
@@ -165,9 +165,9 @@
 		@apply bg-fondo-100 text-letters-100;
 	}
 	input:invalid:focus {
-		@apply border-secondary border-2 rounded;
+		@apply border-secondary border-2 rounded outline-none;
 	}
 	input:valid:focus {
-		@apply border-primary border-2 rounded;
+		@apply border-primary border-2 rounded outline-none;
 	}
 </style>

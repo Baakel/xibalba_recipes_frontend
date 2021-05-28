@@ -11,12 +11,11 @@ export const handle: Handle = async ({ request, render }) => {
 
 	const response = await render(request);
 
-	// if (!cookies.user_id)  {
-	// 	console.log("This has no uuid")
+	// if (!cookies.user_id) {
+	// 	console.log('This has no uuid');
 	// } else {
-	// 	console.log("Cookie found")
+	// 	console.log('Cookie found');
 	// }
-
 	return response;
 };
 

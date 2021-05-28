@@ -2,11 +2,12 @@
 	import { page, session } from '$app/stores';
 	import { goto } from '$app/navigation';
 	async function logout() {
-		await fetch('http://localhost:8000/api/logout', {
-			method: 'GET',
-			mode: 'cors',
-			credentials: 'include'
-		});
+		// await fetch('http://localhost:8000/api/logout', {
+		// 	method: 'GET',
+		// 	mode: 'cors',
+		// 	credentials: 'include'
+		// });
+		await fetch('/logout.json');
 
 		$session.username = '';
 		goto('/');

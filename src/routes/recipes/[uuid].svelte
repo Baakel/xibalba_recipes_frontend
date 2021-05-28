@@ -5,6 +5,13 @@
 
 	export const load: Load = async ({ fetch, page }) => {
 		const res = await fetch(`/recipes/${page.params.uuid}.json`);
+		
+		if (res.status === 401) {
+			return {
+				redirect: '/login',
+				status: 302
+			}
+		}
 
 		if (res.ok) {
 			const recipe = await res.json();

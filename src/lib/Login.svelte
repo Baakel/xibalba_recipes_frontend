@@ -11,12 +11,16 @@
 	async function login() {
 		error = undefined;
 		try {
-			const res = await fetch('http://localhost:8000/api/login', {
+			// const res = await fetch('http://localhost:8000/api/login', {
+			// 	method: 'POST',
+			// 	body: JSON.stringify({ username, password }),
+			// 	headers: { 'Content-Type': 'application/json' },
+			// 	mode: 'cors',
+			// 	credentials: 'include'
+			// });
+			const res = await fetch('/login.json', {
 				method: 'POST',
-				body: JSON.stringify({ username, password }),
-				headers: { 'Content-Type': 'application/json' },
-				mode: 'cors',
-				credentials: 'include'
+				body: JSON.stringify({ username, password })
 			});
 
 			if (res.ok) {
@@ -36,13 +40,6 @@
 			error = 'Server unavailable';
 		}
 	}
-
-	function sendIt(keypress) {
-		// if enter is pressed, call the login function
-		if (keypress.keyCode === 13) {
-			login();
-		}
-	}
 </script>
 
 <!--<div class="bg-fondo-200 rounded-lg p-8 relative overflow-hidden w-192 max-w-full min-h-96">-->
@@ -53,7 +50,10 @@
 	<div
 		class="form-container py-8 row-start-1 md:col-start-1 row-end-2 md:col-end-2 h-full w-full z-20"
 	>
-		<form class="flex justify-center items-center flex-col h-full text-center px-10" action="#">
+		<form
+			on:submit|preventDefault={login}
+			class="flex justify-center items-center flex-col h-full text-center px-10"
+		>
 			<h1 class="text-4xl font-bold mb-8">Login</h1>
 			{#if error}
 				<span class="text-sm text-primary tracking-wide">{error}</span>
@@ -61,20 +61,22 @@
 			<input
 				class="my-4 p-2 w-full"
 				type="text"
-				on:keypress={sendIt}
+				name="username"
 				bind:value={username}
 				placeholder="Enter username"
+				required
 			/>
 			<input
 				class="p-2 w-full"
 				type="password"
-				on:keypress={sendIt}
+				name="password"
 				bind:value={password}
 				autocomplete="current-password"
 				placeholder="Enter your password"
+				required
 			/>
 			<a class="text-sm text-letters-100 m-4" href="#">Forgot your password?</a>
-			<button class="std-btn bg-secondary" on:click|preventDefault={login}>Login</button>
+			<button class="std-btn bg-secondary">Login</button>
 		</form>
 	</div>
 	<!--	<div class="overlay-container absolute top-0 left-1/2 w-1/2 h-full overflow-hidden z-30">-->
@@ -107,6 +109,6 @@
 		@apply bg-fondo-100 text-letters-100;
 	}
 	input:focus {
-		@apply border-secondary border-2 rounded;
+		@apply border-secondary border-2 rounded outline-none;
 	}
 </style>

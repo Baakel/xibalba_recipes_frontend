@@ -31,18 +31,24 @@
 
 <script lang="ts">
 	import { session } from '$app/stores';
+
 	export let recipes;
 	let amount: number;
-	let cols = recipes.length;
 	let error: string;
-	// console.log(recipes)
+
+	// async function handleDel() {
+	// 	// const recipez = await fetch('/dashboard.json', {
+	// 	// 	method: 'DELETE'
+	// 	// })
+	// 	const res = await fetch(`/dashboard/weekly-${amount}.json`);
+	// 	console.log(res, await res.json())
+	// }
+
 	async function deleteChosenRecipes(): Promise<boolean> {
 		error = undefined;
 		try {
-			const res = await fetch('http://localhost:8000/api/recipes/weeklyreset', {
-				method: 'DELETE',
-				mode: 'cors',
-				credentials: 'include'
+			const res = await fetch('/dashboard.json', {
+				method: 'DELETE'
 			});
 
 			if (res.ok) {
@@ -59,12 +65,12 @@
 	async function chooseWeeklyRecipes(ids: [string]): Promise<boolean> {
 		error = undefined;
 		try {
-			const res = await fetch('http://localhost:8000/api/recipes/weekly', {
+			const res = await fetch('/dashboard.json', {
 				method: 'POST',
 				body: JSON.stringify({ ids }),
-				headers: { 'Content-Type': 'application/json' },
-				mode: 'cors',
-				credentials: 'include'
+				// headers: { 'Content-Type': 'application/json' },
+				// mode: 'cors',
+				// credentials: 'include'
 			});
 
 			if (res.ok) {
@@ -79,25 +85,22 @@
 		}
 	}
 
-	async function getRandomRecipes(): Promise<boolean> {
+	async function getRandomRecipes() {
 		error = undefined;
 		try {
-			const res = await fetch(`http://localhost:8000/api/recipes/weekly?amount=${amount}`, {
-				method: 'GET',
-				mode: 'cors',
-				credentials: 'include'
-			});
+			const res = await fetch(`/dashboard/weekly-${amount}.json`);
 
 			if (res.ok) {
-				let recipes_array = await res.json();
-				recipes = recipes_array['recipes'];
-				let recipeIds = recipes.map((recipe) => recipe.id);
+				let { recipes: newRecipes } = await res.json();
+				let recipeIds = newRecipes.map((recipe) => recipe.id);
 				let chooseWeeklyTest = false;
 				let deleteResTest = await deleteChosenRecipes();
 				if (deleteResTest) {
 					chooseWeeklyTest = await chooseWeeklyRecipes(recipeIds);
 				}
-				return deleteResTest && chooseWeeklyTest;
+				if (deleteResTest && chooseWeeklyTest) {
+					return newRecipes
+				}
 			}
 			error = 'Error fetching response';
 			return false;
@@ -109,7 +112,8 @@
 	const handleNewRecipes = async () => {
 		let success = await getRandomRecipes();
 		if (success) {
-			cols = amount;
+			// cols = recipes.length;
+			recipes = success;
 			amount = null;
 		}
 	};
@@ -154,7 +158,7 @@
 					type="number"
 					max="14"
 					min="1"
-					class="bg-fondo-100 text-letters-100 border-secondary border-2 rounded-lg w-8 text-center mx-2 my-2 md:my-0"
+					class="bg-fondo-100 text-letters-100 border-secondary border-2 focus:border-letters-200 rounded-lg w-8 text-center mx-2 my-2 md:my-0 focus:outline-none"
 					bind:value={amount}
 					required
 					aria-required="true"
@@ -162,7 +166,8 @@
 			</form>
 		</div>
 	</div>
-	<div class="mt-8 grid lg:grid-cols-{cols} gap-3">
+	<!--	<div class="mt-8 grid lg:grid-cols-{cols} gap-3">-->
+	<div class="mt-8 grid lg:grid-flow-col lg:auto-cols-fr gap-3">
 		<!--		Cards go here -->
 		{#each recipes as recipe (recipe.id)}
 			<div class="card hover:shadow-lg">
