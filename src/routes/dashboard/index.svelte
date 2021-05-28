@@ -218,7 +218,7 @@
 </ul>
 
 <div>
-	<a class="std-btn" href="/recipes/create">Add a new recipe</a>
+	<a sveltekit:prefetch class="std-btn" href="/recipes/create">Add a new recipe</a>
 </div>
 
 <style>
