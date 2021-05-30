@@ -12,6 +12,40 @@ export const post: RequestHandler<Locals> = async (request) => {
 	if (recipe.ingredients == [{ name: '', amount: '' }]) {
 		recipe.ingredients = undefined;
 	}
+	recipe.name = recipe.name.toLowerCase();
+	if (recipe.servings) {
+		recipe.servings = recipe.servings.toLowerCase();
+	}
+	if (recipe.tipo) {
+		recipe.tipo = recipe.tipo.toLowerCase();
+	}
+	if (recipe.mealType) {
+		recipe.mealType = recipe.mealType.toLowerCase();
+	}
+	if (recipe.time) {
+		recipe.time = recipe.time.toLowerCase();
+	}
+	if (recipe.ingredients) {
+		recipe.ingredients = recipe.ingredients.map((ing) => {
+			let lName;
+			let lAmount;
+			let lTipo;
+			if (ing.name) {
+				lName = ing.name.toLowerCase();
+			}
+			if (ing.amount) {
+				lAmount = ing.amount.toLowerCase();
+			}
+			if (ing.tipo) {
+				lTipo = ing.tipo.toLowerCase();
+			}
+			return {
+				name: lName,
+				amount: lAmount,
+				tipo: lTipo
+			};
+		});
+	}
 	const response = await api(request, 'recipes/new', {
 		// name: recipe.name,
 		// public: recipe.public,

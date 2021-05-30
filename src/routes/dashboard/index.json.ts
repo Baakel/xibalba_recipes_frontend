@@ -1,6 +1,6 @@
 import { api } from '$lib/_api';
-import type { RequestHandler, EndpointOutput } from '@sveltejs/kit';
-import type { Locals, MyHeaders } from '$lib/types';
+import type { RequestHandler } from '@sveltejs/kit';
+import type { Locals } from '$lib/types';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

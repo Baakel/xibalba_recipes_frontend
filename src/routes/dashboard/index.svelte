@@ -35,6 +35,10 @@
 	export let recipes;
 	let amount: number;
 	let error: string;
+	let shoppingList;
+	
+	shoppingList = recipes.map((recipe) => recipe.ingredients).flat()
+	$: console.log(shoppingList)
 
 	// async function handleDel() {
 	// 	// const recipez = await fetch('/dashboard.json', {
@@ -67,7 +71,7 @@
 		try {
 			const res = await fetch('/dashboard.json', {
 				method: 'POST',
-				body: JSON.stringify({ ids }),
+				body: JSON.stringify({ ids })
 				// headers: { 'Content-Type': 'application/json' },
 				// mode: 'cors',
 				// credentials: 'include'
@@ -99,7 +103,7 @@
 					chooseWeeklyTest = await chooseWeeklyRecipes(recipeIds);
 				}
 				if (deleteResTest && chooseWeeklyTest) {
-					return newRecipes
+					return newRecipes;
 				}
 			}
 			error = 'Error fetching response';
@@ -174,12 +178,18 @@
 				<img class="w-full h-32 sm:h-48 object-cover" src="/salad.jpg" alt={recipe.mealType} />
 				<div class="m-4">
 					<a sveltekit:prefetch href={`recipes/${recipe.id}`}>
-						<span class="font-bold text-letters-200">{recipe.name}</span>
+						<span class="font-bold text-letters-200 capitalize">{recipe.name}</span>
 					</a>
-					{#each recipe.steps as step}
-						<p class="text-justify">
-							<span>{step}</span>
-						</p>
+					{#each recipe.ingredients as ingredient}
+						<div
+							class='flex justify-between gap-3 lg:gap-4 px-3 lg:px-4 xl:px-6 py-0.5 my-3 bg-fondo-100 rounded-full'>
+							<p class="text-left capitalize">
+								<span>{ingredient.name}</span>
+							</p>
+							<p class="text-left capitalize">
+								<span>{ingredient.amount}</span>
+							</p>
+						</div>
 					{/each}
 				</div>
 				<div class="badge">
@@ -201,14 +211,17 @@
 		{/each}
 	</div>
 
-	<h4 class="font-bold pb-2 text-xl text-primary border-b border-letters-200">Your recipes</h4>
-	<div class="mt-8">
-		<!-- All your recipes plus your liked ones should go here -->
+	<h4 class="font-bold pb-2 text-xl text-primary border-b border-letters-200">Weekly Shopping List</h4>
+	<div class='mt-8'>
+	
 	</div>
+<!--	<div class="mt-8">-->
+<!--		&lt;!&ndash; All your recipes plus your liked ones should go here &ndash;&gt;-->
+<!--	</div>-->
 
-	<div class="mt-12 flex justify-center">
-		<div class="btn bg-secondary text-letters-100">Load more?</div>
-	</div>
+<!--	<div class="mt-12 flex justify-center">-->
+<!--		<div class="btn bg-secondary text-letters-100">Load more?</div>-->
+<!--	</div>-->
 </div>
 
 <ul>

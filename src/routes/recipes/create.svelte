@@ -33,10 +33,40 @@
 		steps.pop();
 		steps = [...steps];
 	};
+	const validate = (): boolean => {
+		if (!name) {
+			error = "Name can't be empty";
+			window.scrollTo(0, 0);
+			return false;
+		}
+		if (calories && (calories < 0 || !Number.isInteger(calories))) {
+			error = 'Calories need to be a positive integer';
+			window.scrollTo(0, 0);
+			return false;
+		}
+		if (carbohydrates && carbohydrates < 0) {
+			error = 'Carbohydrates need to be a positive number';
+			window.scrollTo(0, 0);
+			return false;
+		}
+		if (fat && fat < 0) {
+			error = 'Fat needs to be a positive number';
+			window.scrollTo(0, 0);
+			return false;
+		}
+		if (protein && protein < 0) {
+			error = 'Protein needs to be a positive number';
+			window.scrollTo(0, 0);
+			return false;
+		}
+		return true;
+	};
 	const handleSubmit = async () => {
+		error = undefined;
+		if (!validate()) return error;
 		let stepArray: string[] = steps.filter((step) => step.paso).map((step) => step.paso);
-		let newIngredients = ingredients.filter(ing => ing.name)
-		ingredients = newIngredients ? newIngredients : undefined
+		let newIngredients = ingredients.filter((ing) => ing.name);
+		ingredients = newIngredients ? newIngredients : undefined;
 		let recipe: Recipe = {
 			name,
 			public: publico,
@@ -65,6 +95,11 @@
 		} catch (err) {
 			console.log(err);
 			error = 'Server unavailable';
+		}
+	};
+	const focusEl = (element) => {
+		if (element.id !== 'step-0' && element.id !== 'ing-0') {
+			element.focus();
 		}
 	};
 </script>
@@ -105,6 +140,7 @@
 					if (!ingredient.name && !ingredient.amount && e.keyCode === 8) removeIng();
 					if (e.keyCode === 13) addNewIng();
 				}}
+				use:focusEl
 				bind:value={ingredient.name}
 				placeholder="Ingredient name"
 			/>
@@ -139,12 +175,13 @@
 		<div class="flex">
 			<input
 				type="text"
-				id={i}
+				id={'step-' + i}
 				name={'step-' + i}
 				on:keydown|self={(e) => {
 					if (!step.paso && e.keyCode === 8) removeStep();
 					if (e.keyCode === 13) addNewStep();
 				}}
+				use:focusEl
 				bind:value={step.paso}
 				placeholder="Step numbers will be added automatically"
 			/>
