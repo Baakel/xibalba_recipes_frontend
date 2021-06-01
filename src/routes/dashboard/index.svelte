@@ -9,7 +9,7 @@
 			};
 		}
 		const res = await fetch('/dashboard.json');
-
+		
 		if (res.ok) {
 			// We switched from the above form, which looks like rust code kinda. To a more javascript
 			// way of dealing with it. Destructuring the object immediately
@@ -20,7 +20,7 @@
 				props: { recipes }
 			};
 		}
-
+	
 		const { message } = await res.json();
 
 		return {
@@ -36,9 +36,13 @@
 	let amount: number;
 	let error: string;
 	let shoppingList;
-	
-	shoppingList = recipes.map((recipe) => recipe.ingredients).flat()
-	$: console.log(shoppingList)
+
+	shoppingList = recipes.map((recipe) => recipe.ingredients).flat();
+	let groupedIngredients = shoppingList.reduce((reducer, ingredient) => {
+		reducer[ingredient.name] = reducer[ingredient.name] || [];
+		reducer[ingredient.name].push({ amount: ingredient.amount });
+		return reducer;
+	}, Object.create(null));
 
 	// async function handleDel() {
 	// 	// const recipez = await fetch('/dashboard.json', {
@@ -132,6 +136,9 @@
 		{#if error}
 			<span class="text-center text-primary text-xs tracking-wide">{error}</span>
 		{/if}
+		<div>
+			<a sveltekit:prefetch class="std-btn" href="/recipes/create">Add a new recipe</a>
+		</div>
 		<h4 class="text-3xl col-start-2 col-end-3 text-center font-bold text-primary ">
 			Chosen Recipes
 		</h4>
@@ -171,18 +178,23 @@
 		</div>
 	</div>
 	<!--	<div class="mt-8 grid lg:grid-cols-{cols} gap-3">-->
-	<div class="mt-8 grid lg:grid-flow-col lg:auto-cols-fr gap-3">
+	<div class="mt-8 grid md:grid-cols-wrap-auto gap-3">
 		<!--		Cards go here -->
 		{#each recipes as recipe (recipe.id)}
 			<div class="card hover:shadow-lg">
-				<img class="w-full h-32 sm:h-48 object-cover" src="/salad.jpg" alt={recipe.mealType} />
-				<div class="m-4">
+				<img
+					class="w-full h-32 sm:h-48 object-cover"
+					src={recipe.mealType ? `/${recipe.mealType}-s.jpg`: "/salad.jpg" }
+					alt={recipe.mealType}
+				/>
+				<div class="m-4 overflow-auto">
 					<a sveltekit:prefetch href={`recipes/${recipe.id}`}>
 						<span class="font-bold text-letters-200 capitalize">{recipe.name}</span>
 					</a>
 					{#each recipe.ingredients as ingredient}
 						<div
-							class='flex justify-between gap-3 lg:gap-4 px-3 lg:px-4 xl:px-6 py-0.5 my-3 bg-fondo-100 rounded-full'>
+							class="flex flex-wrap justify-between gap-3 lg:gap-4 px-3 lg:px-4 xl:px-6 py-0.5 my-3 bg-fondo-100 rounded-lg hover:bg-secondary overflow-auto"
+						>
 							<p class="text-left capitalize">
 								<span>{ingredient.name}</span>
 							</p>
@@ -211,27 +223,37 @@
 		{/each}
 	</div>
 
-	<h4 class="font-bold pb-2 text-xl text-primary border-b border-letters-200">Weekly Shopping List</h4>
-	<div class='mt-8'>
-	
-	</div>
-<!--	<div class="mt-8">-->
-<!--		&lt;!&ndash; All your recipes plus your liked ones should go here &ndash;&gt;-->
-<!--	</div>-->
+	<h4 class="font-bold pb-2 text-xl text-primary border-b border-letters-200 mt-8">
+		Weekly Shopping List
+	</h4>
+	<div class="mt-8" />
+	<!--	<div class="mt-8">-->
+	<!--		&lt;!&ndash; All your recipes plus your liked ones should go here &ndash;&gt;-->
+	<!--	</div>-->
 
-<!--	<div class="mt-12 flex justify-center">-->
-<!--		<div class="btn bg-secondary text-letters-100">Load more?</div>-->
-<!--	</div>-->
+	<!--	<div class="mt-12 flex justify-center">-->
+	<!--		<div class="btn bg-secondary text-letters-100">Load more?</div>-->
+	<!--	</div>-->
 </div>
 
-<ul>
-	{#each recipes as recipe}
-		<li class="text-center"><a href={`recipes/${recipe.id}`}>{recipe.name}</a></li>
-	{/each}
-</ul>
-
-<div>
-	<a sveltekit:prefetch class="std-btn" href="/recipes/create">Add a new recipe</a>
+<div class="mx-auto flex justify-center bg-fondo-200 p-4 rounded-lg w-2/3">
+	<ul class="w-4/5">
+		{#each Object.entries(groupedIngredients) as [ingredient, amounts]}
+			<li
+				class="bg-fondo-100 my-4 p-4 text-letters-100 capitalize font-semibold hover:bg-secondary rounded-lg"
+			>
+				<!--				<div class="grid gap-4 grid-cols-2">-->
+				<div class="flex gap-4 justify-between">
+					<div class=""><span class="block text-left">{ingredient}</span></div>
+					<div class="">
+						{#each amounts as amount}
+							<span class="block text-right">{amount.amount}</span>
+						{/each}
+					</div>
+				</div>
+			</li>
+		{/each}
+	</ul>
 </div>
 
 <style>

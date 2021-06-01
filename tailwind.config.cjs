@@ -56,6 +56,9 @@ module.exports = {
 			zIndex: {
 				m1: '-10',
 				100: '100'
+			},
+			gridTemplateColumns: {
+				'wrap-auto': 'repeat(auto-fit, minmax(12rem, 1fr))'
 			}
 		}
 	},

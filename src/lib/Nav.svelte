@@ -69,6 +69,14 @@
 						><span>Dashboard</span></a
 					>
 				</li>
+				<li>
+					<a
+						on:click={showMenu}
+						class:current={$page.path === '/recipes'}
+						sveltekit:prefetch
+						href="/recipes"><span>Recipes</span></a
+					>
+				</li>
 				<li><a on:click={showMenu} href="#" on:click={logout}>Logout</a></li>
 			{/if}
 		</ul>
