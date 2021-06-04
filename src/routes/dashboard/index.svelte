@@ -36,13 +36,16 @@
 	let amount: number;
 	let error: string;
 	let shoppingList;
+	let groupedIngredients = [];
 
-	shoppingList = recipes.map((recipe) => recipe.ingredients).flat();
-	let groupedIngredients = shoppingList.reduce((reducer, ingredient) => {
-		reducer[ingredient.name] = reducer[ingredient.name] || [];
-		reducer[ingredient.name].push({ amount: ingredient.amount });
-		return reducer;
-	}, Object.create(null));
+	$: {
+		shoppingList = recipes.map((recipe) => recipe.ingredients).flat();
+		groupedIngredients = shoppingList.reduce((reducer, ingredient) => {
+			reducer[ingredient.name] = reducer[ingredient.name] || [];
+			reducer[ingredient.name].push({ amount: ingredient.amount });
+			return reducer;
+		}, Object.create(null));
+	}
 
 	// async function handleDel() {
 	// 	// const recipez = await fetch('/dashboard.json', {
@@ -236,11 +239,11 @@
 	<!--	</div>-->
 </div>
 
-<div class="mx-auto flex justify-center bg-fondo-200 p-4 rounded-lg w-2/3">
+<div class="md:mx-auto flex justify-center bg-fondo-200 p-4 rounded-lg md:w-2/3">
 	<ul class="w-4/5">
 		{#each Object.entries(groupedIngredients) as [ingredient, amounts]}
 			<li
-				class="bg-fondo-100 my-4 p-4 text-letters-100 capitalize font-semibold hover:bg-secondary rounded-lg"
+				class="bg-fondo-100 text-sm my-2 p-2 text-letters-100 capitalize font-semibold hover:bg-secondary rounded-lg"
 			>
 				<!--				<div class="grid gap-4 grid-cols-2">-->
 				<div class="flex gap-4 justify-between">

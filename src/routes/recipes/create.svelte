@@ -15,6 +15,7 @@
 	let ingredients: Ingredient[] = [{ name: '', amount: '' }];
 	let time: string;
 	let error;
+	let selected;
 
 	const addNewIng = () => {
 		ingredients = [...ingredients, { name: '', amount: '' }];
@@ -104,7 +105,7 @@
 	};
 </script>
 
-<h2 class="text-4xl font-bold text-center">Add a new recipe</h2>
+<h2 class="text-4xl font-bold text-center mt-4">Add a new recipe</h2>
 {#if error}
 	<h3 class="text-primary text-center tracking-wide">{error}</h3>
 {/if}
@@ -155,13 +156,28 @@
 				bind:value={ingredient.amount}
 				placeholder="Ingredient amount"
 			/>
-			<input
-				type="text"
-				id={'tipo-' + index}
-				name={'tipo-' + index}
-				bind:value={ingredient.tipo}
-				placeholder="Type (meat, eggs, vegetable)"
-			/>
+			<!--			<input-->
+			<!--				type="text"-->
+			<!--				id={'tipo-' + index}-->
+			<!--				name={'tipo-' + index}-->
+			<!--				on:keydown|self={(e) => {-->
+			<!--					if (!ingredient.name && !ingredient.amount && e.keyCode === 8) removeIng();-->
+			<!--					if (e.keyCode === 13) addNewIng();-->
+			<!--				}}-->
+			<!--				bind:value={ingredient.tipo}-->
+			<!--				placeholder="Type (meat, eggs, vegetable)"-->
+			<!--			/>-->
+			<select bind:value={ingredient.tipo} id={'tipo-' + index}>
+				<option value="condiment">condiment</option>
+				<option value="dairy">dairy</option>
+				<option value="fruit">fruit</option>
+				<option value="meat">meat</option>
+				<option value="milk">milk</option>
+				<option value="nuts">nuts</option>
+				<option value="sauce">sauce</option>
+				<option value="spices">spices</option>
+				<option value="vegetable" selected>vegetable</option>
+			</select>
 		</div>
 	{/each}
 	<div class="flex justify-between">
@@ -188,7 +204,16 @@
 		</div>
 	{/each}
 	<label for="mealType">Meal Type</label>
-	<input type="text" id="mealType" bind:value={mealType} placeholder="(e.g. Dinner or Dessert)" />
+	<!--	<input type="text" id="mealType" bind:value={mealType} placeholder="(e.g. Dinner or Dessert)" />-->
+	<select bind:value={mealType} id="mealType">
+		<option value="breakfast">breakfast</option>
+		<option value="dessert">dessert</option>
+		<option value="dinner" selected>dinner</option>
+		<option value="lunch">lunch</option>
+		<option value="salad">salad</option>
+		<option value="sauce">sauce</option>
+		<option value="soup">soup</option>
+	</select>
 	<label for="calories">Calories</label>
 	<input type="number" id="calories" placeholder="in kCal" min="0" bind:value={calories} />
 	<label for="carbs">Carbohydrates</label>
@@ -205,12 +230,21 @@
 	<label for="prot">Protein</label>
 	<input type="number" min="0" placeholder="in grams" step="any" bind:value={protein} id="prot" />
 	<label for="tipo">Dietary Type</label>
-	<input
-		type="text"
-		id="tipo"
-		placeholder="(e.g. Vegan, Vegetarian, Fish, Meat, Egg, Dairy)"
-		bind:value={tipo}
-	/>
+	<!--	<input-->
+	<!--		type="text"-->
+	<!--		id="tipo"-->
+	<!--		placeholder="(e.g. Vegan, Vegetarian, Fish, Meat, Egg, Dairy)"-->
+	<!--		bind:value={tipo}-->
+	<!--	/>-->
+	<select bind:value={tipo} id="tipo">
+		<option value="dairy">dairy</option>
+		<option value="eggs">eggs</option>
+		<option value="fish">fish</option>
+		<option value="gluten free">gluten free</option>
+		<option value="red meat">red meat</option>
+		<option value="vegan" selected>vegan</option>
+		<option value="vegetarian">vegetarian</option>
+	</select>
 	<label for="servings">Number of Servings</label>
 	<input
 		name="servings"
@@ -243,6 +277,9 @@
 		@apply block w-full p-3 my-3 mx-auto rounded-md bg-fondo-100 text-letters-100;
 	}
 	input[type='number'] {
+		@apply block w-full p-3 my-3 mx-auto rounded-md bg-fondo-100 text-letters-100;
+	}
+	select {
 		@apply block w-full p-3 my-3 mx-auto rounded-md bg-fondo-100 text-letters-100;
 	}
 	input::-webkit-outer-spin-button,

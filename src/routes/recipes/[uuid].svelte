@@ -33,7 +33,7 @@
 	export let recipe;
 </script>
 
-<div class="mx-auto block bg-fondo-200 p-12 rounded-lg w-2/3">
+<div class="md:mx-auto block bg-fondo-200 mt-8 md:mt-0 p-12 rounded-lg lg:w-2/3 capitalize">
 	<h2 class="text-center font-bold text-4xl">{recipe.name}</h2>
 
 	<h4 class="text-lg font-bold text-center my-8">Ingredients</h4>
