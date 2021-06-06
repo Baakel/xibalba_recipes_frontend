@@ -5,7 +5,7 @@ import type { Request } from '@sveltejs/kit';
 import type { Locals } from '$lib/types';
 
 const base = 'http://localhost:8000/api';
-const allowedRoutes = ['/login.json', '/register.json'];
+const allowedRoutes = ['/login.json', '/register.json', '/recipes/public.json'];
 
 export async function api(request: Request<Locals>, resource: string, data?: {}) {
 	// User must have cookie set

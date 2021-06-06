@@ -57,6 +57,16 @@
 				<li>
 					<a
 						on:click={showMenu}
+						class:current={$page.path === '/recipes/public'}
+						sveltekit:prefetch
+						href="/recipes/public"
+					>
+						<span>Recipes</span>
+					</a>
+				</li>
+				<li>
+					<a
+						on:click={showMenu}
 						class:current={$page.path === '/login'}
 						sveltekit:prefetch
 						href="/login"><span>Login</span></a
